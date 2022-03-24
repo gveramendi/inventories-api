@@ -1,4 +1,2 @@
 # inventories-api
 
-# dummy description
-
