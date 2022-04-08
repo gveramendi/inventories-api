@@ -16,18 +16,23 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { PageOptionsDto } from '../../common/dtos/page-options.dto';
 import { PageDto } from 'src/common/dtos/page.dto';
 import { UserDto } from '../dto/user.dto';
+import { ApiPaginatedResponse } from 'src/common/decorators/api-paginated-response.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ApiPaginatedResponse(UserDto)
   async findAll(
     @Query() pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<UserDto>> {
