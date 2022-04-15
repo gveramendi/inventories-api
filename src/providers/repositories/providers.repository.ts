@@ -18,7 +18,7 @@ export class ProvidersRepository extends Repository<ProviderEntity> {
       phoneContact,
     } = createProviderDto;
 
-    const user = this.create({
+    const provider = this.create({
       code,
       name,
       email,
@@ -29,7 +29,7 @@ export class ProvidersRepository extends Repository<ProviderEntity> {
       phoneContact,
     });
 
-    await this.save(user);
-    return user;
+    await this.save(provider);
+    return provider;
   }
 }

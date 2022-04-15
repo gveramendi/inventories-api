@@ -19,8 +19,8 @@ import { ProviderDto } from '../dto/provider.dto';
 import { UpdateProviderDto } from '../dto/update-provider.dto';
 import { ProvidersService } from '../services/providers.service';
 
-@Controller('providers')
 @ApiTags('providers')
+@Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
 

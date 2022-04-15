@@ -1,5 +1,6 @@
 import { AbstractEntity } from 'src/common/entities/abstract.entity';
-import { Column, Entity } from 'typeorm';
+import { ProductEntity } from 'src/products/entities/product.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'providers' })
 export class ProviderEntity extends AbstractEntity {
@@ -33,4 +34,7 @@ export class ProviderEntity extends AbstractEntity {
 
   @Column({ nullable: true })
   phoneContact: string;
+
+  @OneToMany(() => ProductEntity, (product) => product.provider)
+  products: ProductEntity[];
 }
