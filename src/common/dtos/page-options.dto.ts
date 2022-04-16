@@ -36,6 +36,11 @@ export class PageOptionsDto {
   @IsOptional()
   readonly take?: number = 10;
 
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  readonly keyword: string;
+
   get skip(): number {
     return (this.page - 1) * this.take;
   }

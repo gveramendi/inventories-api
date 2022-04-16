@@ -37,6 +37,35 @@ export class ProvidersService {
   ): Promise<PageDto<ProviderDto>> {
     const queryBuilder =
       this.providersRepository.createQueryBuilder('provider');
+
+    if (pageOptionsDto.keyword) {
+      queryBuilder
+        .where('provider.code like :code', {
+          code: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.name like :name', {
+          name: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.email like :email', {
+          email: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.phone like :phone', {
+          phone: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.address like :address', {
+          address: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.contact like :contact', {
+          contact: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.emailContact like :emailContact', {
+          emailContact: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('provider.phoneContact like :phoneContact', {
+          phoneContact: '%' + pageOptionsDto.keyword + '%',
+        });
+    }
+
     queryBuilder
       .orderBy(`provider.${pageOptionsDto.colSort}`, pageOptionsDto.order)
       .skip(pageOptionsDto.page)

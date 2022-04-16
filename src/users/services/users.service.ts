@@ -32,6 +32,23 @@ export class UsersService {
 
   async getUsers(pageOptionsDto: PageOptionsDto): Promise<PageDto<UserDto>> {
     const queryBuilder = this.usersRepository.createQueryBuilder('user');
+
+    if (pageOptionsDto.keyword) {
+      queryBuilder
+        .where('LOWER(user.firstName) like LOWER(:firstName)', {
+          firstName: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('LOWER(user.lastName) like LOWER(:lastName)', {
+          lastName: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('LOWER(user.email) like LOWER(:email)', {
+          email: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('user.gender = :gender', {
+          gender: pageOptionsDto.keyword,
+        });
+    }
+
     queryBuilder
       .orderBy(`user.${pageOptionsDto.colSort}`, pageOptionsDto.order)
       .skip(pageOptionsDto.page)

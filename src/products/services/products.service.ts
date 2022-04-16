@@ -70,6 +70,26 @@ export class ProductsService {
     pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<ProductDto>> {
     const queryBuilder = this.productsRepository.createQueryBuilder('product');
+
+    if (pageOptionsDto.keyword) {
+      queryBuilder
+        .where('product.code like :code', {
+          code: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('product.name like :name', {
+          name: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('product.description like :description', {
+          description: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('product.color like :color', {
+          color: '%' + pageOptionsDto.keyword + '%',
+        })
+        .orWhere('product.presentation like :presentation', {
+          presentation: '%' + pageOptionsDto.keyword + '%',
+        });
+    }
+
     queryBuilder
       .orderBy(`product.${pageOptionsDto.colSort}`, pageOptionsDto.order)
       .skip(pageOptionsDto.page)
