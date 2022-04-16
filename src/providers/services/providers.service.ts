@@ -35,21 +35,15 @@ export class ProvidersService {
   async getProviders(
     pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<ProviderDto>> {
-    console.log('pageOptionsDto: ', pageOptionsDto);
     const queryBuilder =
       this.providersRepository.createQueryBuilder('provider');
-    const colSort = `provider.${pageOptionsDto.colSort}`;
-
     queryBuilder
-      .orderBy(colSort, pageOptionsDto.order)
+      .orderBy(`provider.${pageOptionsDto.colSort}`, pageOptionsDto.order)
       .skip(pageOptionsDto.page)
       .take(pageOptionsDto.take);
 
     const itemCount = await queryBuilder.getCount();
-    console.log('itemCount: ', itemCount);
     const { entities } = await queryBuilder.getRawAndEntities();
-    console.log('entities: ', entities);
-
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
     return new PageDto(entities, pageMetaDto);

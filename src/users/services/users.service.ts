@@ -32,16 +32,13 @@ export class UsersService {
 
   async getUsers(pageOptionsDto: PageOptionsDto): Promise<PageDto<UserDto>> {
     const queryBuilder = this.usersRepository.createQueryBuilder('user');
-    const colSort = `user.${pageOptionsDto.colSort}`;
-
     queryBuilder
-      .orderBy(colSort, pageOptionsDto.order)
+      .orderBy(`user.${pageOptionsDto.colSort}`, pageOptionsDto.order)
       .skip(pageOptionsDto.page)
       .take(pageOptionsDto.take);
 
     const itemCount = await queryBuilder.getCount();
     const { entities } = await queryBuilder.getRawAndEntities();
-
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
     return new PageDto(entities, pageMetaDto);

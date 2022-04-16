@@ -70,10 +70,8 @@ export class ProductsService {
     pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<ProductDto>> {
     const queryBuilder = this.productsRepository.createQueryBuilder('product');
-    const colSort = `product.${pageOptionsDto.colSort}`;
-
     queryBuilder
-      .orderBy(colSort, pageOptionsDto.order)
+      .orderBy(`product.${pageOptionsDto.colSort}`, pageOptionsDto.order)
       .skip(pageOptionsDto.page)
       .take(pageOptionsDto.take);
 
